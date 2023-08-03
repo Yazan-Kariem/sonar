@@ -1,27 +1,31 @@
 package loginfeature;
 
+import io.cucumber.java.an.E;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.logging.Logger;
 
 public class ControlPanel {
+    String host = "localhost";
+    int port = 3306;
+    String database = "sakancom";
+    String username = "root";
+    String password = "password";
+    String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+    private static final Logger logger = Logger.getLogger(ControlPanel.class.getName());
 
-    public boolean isBooked(String userName){
+    public boolean isBooked(String userName) throws Exception {
 
 
-        String host = "localhost";
-        int port = 3306;
-        String database = "sakancom";
-        String username = "root";
-        String password = "password";
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+      Connection connection = DriverManager.getConnection(url, username, password);
 
             Statement statement = connection.createStatement();
-            String query = new String();
-            query = "Select * from booking where tenantUserName='"+userName+"'" ;
+
+            String query = "Select * from booking where tenantUserName='"+userName+"'" ;
             ResultSet res = statement.executeQuery(query);
             while (res.next()){
                 return true;
@@ -29,50 +33,45 @@ public class ControlPanel {
             connection.close();
             res.close();
 
-        }
-        catch (Exception e){
 
-        }
+
 
 
             return false;
 
     }
 
-    public boolean displayTenantInfo(String userName) {
+    public boolean displayTenantInfo(String userName) throws Exception{
 
         if(isBooked(userName)){
 
-               String host = "localhost";
-                int port = 3306;
-                String database = "sakancom";
-                String username = "root";
-                String password = "password";
-                String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
-
-                try (Connection connection = DriverManager.getConnection(url, username, password)) {
+                Connection connection = DriverManager.getConnection(url, username, password);
 
                     Statement statement = connection.createStatement();
-                    String query = new String();
-                    query="Select * from tenant where username='"+userName+"'";
+
+                    String query="Select * from tenant where username='"+userName+"'";
                     ResultSet res=statement.executeQuery(query);
                     System.out.println("Personal Information : ");
                 while (res.next()){
-                    System.out.println("Name : "+res.getString(1)+" "+res.getString(2)+" "+res.getString(3));
-                    System.out.println("Phone Number : "+res.getString(4));
-                    System.out.println("Email : "+res.getString(5));
-                    System.out.println("Age : "+res.getString(6));
-                    System.out.println("Registration Number : "+res.getString(7));
-                    System.out.println("Major : "+res.getString(8));
+                    String name="Name : "+res.getString(1)+" "+res.getString(2)+" "+res.getString(3);
+                    String phoneNumber="Phone Number : "+res.getString(4);
+                    String email="Email : "+res.getString(5);
+                    String age="Age : "+res.getString(6);
+                    String registrationNumber="Registration Number : "+res.getString(7);
+                    String major="Major : "+res.getString(8);
+                    logger.info(name);
+                    logger.info(phoneNumber);
+                    logger.info(email);
+                    logger.info(age);
+                    logger.info(registrationNumber);
+                    logger.info(major);
                     System.out.println("_____________________________________________");
                     return true;
-                }
 
 
-            }
-            catch (Exception e){
 
             }
+
 
 
         }
@@ -81,27 +80,25 @@ public class ControlPanel {
 
     public boolean displayOwnerInfo(String userName){
         String ownerName=new String(getOwnerName(userName));
-        String host = "localhost";
-        int port = 3306;
-        String database = "sakancom";
-        String username = "root";
-        String password = "password";
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
             Statement statement = connection.createStatement();
-            String query = new String();
-            query = "Select * from owner where username='" + ownerName + "'";
-            System.out.println(query);
+
+           String  query = "Select * from owner where username='" + ownerName + "'";
+
             ResultSet re = statement.executeQuery(query);
-            System.out.println(ownerName);
-            System.out.println("Owner information:");
+
+            logger.info("Owner information:");
             while (re.next()) {
-                System.out.println("Owner Name : "+re.getString(1)+" "+re.getString(2)+" "+re.getString(3));
-                System.out.println("Age : "+re.getString(4));
-                System.out.println("Phone Number : "+re.getString(5));
-                System.out.println("Email : "+re.getString(6));
+                String ownerNamep="Owner Name : "+re.getString(1)+" "+re.getString(2)+" "+re.getString(3);
+                String age="Age : "+re.getString(4);
+                String phoneNumber="Phone Number : "+re.getString(5);
+                String email="Email : "+re.getString(6);
+               logger.info(ownerNamep);
+               logger.info(age);
+                logger.info(phoneNumber);
+               logger.info(email);
 
                 return true;
             }
@@ -115,18 +112,12 @@ public class ControlPanel {
 
     public String getOwnerName(String userName){
 
-        String host = "localhost";
-        int port = 3306;
-        String database = "sakancom";
-        String username = "root";
-        String password = "password";
-        String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
             Statement statement = connection.createStatement();
-            String query = new String();
-            query = "Select * from booking where tenantUserName='" + userName + "'";
+
+            String query = "Select * from booking where tenantUserName='" + userName + "'";
             ResultSet res = statement.executeQuery(query);
             while (res.next()){
                 return res.getString(3);
@@ -140,59 +131,43 @@ public class ControlPanel {
 
         }
 
-        public String getHouseID(String userName){
+        public String getHouseID(String userName) throws Exception{
 
-            String host = "localhost";
-            int port = 3306;
-            String database = "sakancom";
-            String username = "root";
-            String password = "password";
-            String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
-            try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        Connection connection = DriverManager.getConnection(url, username, password);
 
                 Statement statement = connection.createStatement();
-                String query = new String();
-                query = "Select * from booking where tenantUserName='"+userName+"'" ;
+
+                String  query = "Select * from booking where tenantUserName='"+userName+"'" ;
                 ResultSet res = statement.executeQuery(query);
                 while (res.next()){
                     return res.getString(1);
                 }
 
-            }
-            catch (Exception e){
 
-            }
 
 return "null";
         }
-        public boolean displayRent(String userName){
+        public boolean displayRent(String userName) throws Exception {
         String id=new String(getHouseID(userName));
-            String host = "localhost";
-            int port = 3306;
-            String database = "sakancom";
-            String username = "root";
-            String password = "password";
-            String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
-            try (Connection connection = DriverManager.getConnection(url, username, password)) {
+          Connection connection = DriverManager.getConnection(url, username, password);
 
                 Statement statement = connection.createStatement();
-                String query = new String();
-                query = "Select * from housing where ID='" + id + "'";
+
+                String query = "Select * from housing where ID='" + id + "'";
                 ResultSet res = statement.executeQuery(query);
                 while (res.next()) {
-                    System.out.println("Rent : "+res.getString(13));
+                    String rent="Rent : "+res.getString(13);
+                   logger.info(rent);
 return true;
                 }
 
-            }
-            catch (Exception e){
 
-            }
+
             return false;
         }
-public boolean displayControlPanel(String userName){
+public boolean displayControlPanel(String userName) throws Exception {
 int flag=0;
 int flag1=0;
 int flag2=0;
