@@ -20,20 +20,21 @@ String tenant="tenant";
     String userName;
     String password;
     String role;
+    String admin="admin";
 
-    public  String checkValues(String UserName,String password) throws SQLException{
+    public  String checkValues(String userName,String password) throws SQLException{
 
         Connection connection = DriverManager.getConnection(url, username1, password1);
             Statement statement = connection.createStatement();
-            if(!UserName.isEmpty() && !password.isEmpty()){
+            if(!userName.isEmpty() && !password.isEmpty()){
 
-                String query = "SELECT * FROM login where username='"+UserName+"' and password='"+password+"'";
+                String query = "SELECT * FROM login where username='"+userName+"' and password='"+password+"'";
                 ResultSet resultSet = statement.executeQuery(query);
                 while (resultSet.next()) {
 
                     if (resultSet.getString(3).equalsIgnoreCase(tenant)) {
-                        role =tenant;} else if (resultSet.getString(3).equalsIgnoreCase("admin")) {
-                        role ="admin";} else if (resultSet.getString(3).equalsIgnoreCase(owner)) {
+                        role =tenant;} else if (resultSet.getString(3).equalsIgnoreCase(admin)) {
+                        role =admin;} else if (resultSet.getString(3).equalsIgnoreCase(owner)) {
                         role =owner;}
                 }
 
