@@ -119,16 +119,17 @@ else if (choose==5) {
 
                 }
                 else if(role.equals("owner")){
+                    logger.info("in");
                 }
                 else if (role.equals("admin")) {
-
+                    logger.info("in");
                 }
 
                 logger.info(line);
             }
 
             else if (loginOrSignUp==2) {
-
+logger.info("in");
             }
         }
     }
