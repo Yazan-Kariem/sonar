@@ -15,26 +15,27 @@ public class ControlPanel {
 String select="Select * from booking where tenantUserName='";
     public boolean isBooked(String userName) throws SQLException {
 
+        Connection connection = null;
+        ResultSet res = null;
+        try {
 
-
-      Connection connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
 
             Statement statement = connection.createStatement();
 
-            String query = select+userName+"'" ;
-            ResultSet res = statement.executeQuery(query);
-            while (res.next()){
+            String query = select + userName + "'";
+            res = statement.executeQuery(query);
+            while (res.next()) {
                 return true;
             }
+
+
+        } finally {
             connection.close();
             res.close();
 
-
-
-
-
-            return false;
-
+        }
+        return false;
     }
 
     public boolean displayTenantInfo(String userName) throws SQLException{
