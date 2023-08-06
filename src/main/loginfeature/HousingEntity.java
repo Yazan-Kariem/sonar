@@ -137,11 +137,11 @@ String wid="' where id='";
 
                         res.close();
                     } finally {
-                        assert statement1 != null;
-                        statement1.close();
+                          assert statement1 != null;
                         assert statement != null;
-                        statement.close();
                         assert statement2 != null;
+                        statement1.close();
+                        statement.close();
                         statement2.close();
 
                     }
