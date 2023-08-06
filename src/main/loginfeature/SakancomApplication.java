@@ -131,6 +131,10 @@ else if (choose==5) {
             else if (loginOrSignUp==2) {
 logger.info("in");
             }
+                else {
+                break;
+            }
+            
         }
     }
 }
