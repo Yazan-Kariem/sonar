@@ -20,20 +20,24 @@ public class Furniture {
     String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
 
     public boolean checkAvailability(String userName) throws SQLException {
+boolean flag=false;
+        Statement statement = null;
+        try(Connection connection = DriverManager.getConnection(url, username, password)) {
+             statement = connection.createStatement();
 
+            String query = queryS + userName + "' and Selled='No'";
+            ResultSet resultSet = statement.executeQuery(query);
 
-        Connection connection = DriverManager.getConnection(url, username, password);
-        Statement statement = connection.createStatement();
-
-        String query = queryS + userName + "' and Selled='No'";
-        ResultSet resultSet = statement.executeQuery(query);
-
-        while (resultSet.next()) {
-            return true;
+            while (resultSet.next()) {
+                flag= true;
+            }
+resultSet.close();
+        } 
+        finally {
+            assert statement!=null;
+            statement.close();
         }
-
-
-        return false;
+        return flag;
 
 
     }
@@ -44,29 +48,33 @@ public class Furniture {
 
             int counter = 1;
 
-            Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement();
+            Statement statement = null;
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
+                statement = connection.createStatement();
 
-            String query = queryS + userName + "'";
-            ResultSet resultSet = statement.executeQuery(query);
+                String query = queryS + userName + "'";
+                ResultSet resultSet = statement.executeQuery(query);
 
-            while (resultSet.next()) {
-                String idt = "ID : " + resultSet.getString(5);
-                String pcounter=counter + "-";
-                String ppicture="Picture : " + resultSet.getString(2);
-                String residence="residence_location_desc : " + resultSet.getString(3);
-                String pprice="Price : " + resultSet.getString(4);
-                logger.info(pcounter);
-                logger.info(idt);
-                logger.info(ppicture);
-                logger.info(residence);
-                logger.info(pprice);
-                logger.info("_____________________________________________");
-                counter++;
-                flag=true;
+                while (resultSet.next()) {
+                    String idt = "ID : " + resultSet.getString(5);
+                    String pcounter = counter + "-";
+                    String ppicture = "Picture : " + resultSet.getString(2);
+                    String residence = "residence_location_desc : " + resultSet.getString(3);
+                    String pprice = "Price : " + resultSet.getString(4);
+                    logger.info(pcounter);
+                    logger.info(idt);
+                    logger.info(ppicture);
+                    logger.info(residence);
+                    logger.info(pprice);
+                    logger.info("_____________________________________________");
+                    counter++;
+                    flag = true;
+                }
+
+            } finally {
+                assert statement != null;
+                statement.close();
             }
-
-
 
         }
         return flag;
@@ -76,9 +84,15 @@ public class Furniture {
         String query = "insert into forniture (id,picture,residence_location_desc,price,username_tenant,selled) value ('" + id + "','" + picture + "','" + description + "','" + price + "','" + userName + "','" + selled + "')";
 
 
-        Connection connection = DriverManager.getConnection(url, username, password);
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(query);
+        Statement statement = null;
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+            
+        } finally {
+            assert statement != null;
+            statement.close();
+        }
         return true;
 
 
@@ -88,35 +102,44 @@ public class Furniture {
         if (checkAvailability(userName, id)) {
 
 
-            Connection connection = DriverManager.getConnection(url, username, password);
-            Statement statement = connection.createStatement();
-            String query = "update forniture set selled='Yes' where id='" + id + "'";
-            statement.executeUpdate(query);
-
+            Statement statement = null;
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
+                statement = connection.createStatement();
+                String query = "update forniture set selled='Yes' where id='" + id + "'";
+                statement.executeUpdate(query);
+            } finally {
+                assert statement != null;
+                statement.close();
+            }
             return true;
-
 
 
         }
         return false;
     }
 
-      public boolean checkAvailability(String userName, String id) throws SQLException {
-        boolean flag=false;
-        Connection connection = DriverManager.getConnection(url, username, password);
-        Statement statement = connection.createStatement();
+    public boolean checkAvailability(String userName, String id) throws SQLException {
+        boolean flag = false;
+        Statement statement = null;
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+            statement = connection.createStatement();
 
-        String query = queryS + userName + "' and selled='No' and id='" + id + "'";
+            String query = queryS + userName + "' and selled='No' and id='" + id + "'";
 
-        ResultSet resultSet = statement.executeQuery(query);
+            ResultSet resultSet = statement.executeQuery(query);
 
-        while (resultSet.next()) {
-            
-flag=true;
+            while (resultSet.next()) {
 
+                flag = true;
+
+            }
+            resultSet.close();
+        } finally {
+            assert statement != null;
+            statement.close();
         }
-      return  flag;
 
+        return flag;
 
 
     }
