@@ -1,8 +1,5 @@
 package loginfeature;
 
-
-import io.cucumber.java.an.E;
-
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -27,11 +24,11 @@ String select="Select * from booking where tenantUserName='";
             while (res.next()) {
                 flag = true;
             }
-            connection.close();
+         
             res.close();
-        
 
-        } 
+
+        }
         finally {
             assert statement!=null;
 
@@ -69,8 +66,8 @@ boolean flag=false;
                     logger.info("_____________________________________________");
                     flag = true;
                 }
-          
-                connection.close();
+
+            
                 res.close();
             } finally {
                 assert statement!=null;
@@ -109,8 +106,8 @@ boolean flag=false;
                 flag = true;
             }
 
-    
-            connection.close();
+
+      
             re.close();
 
         } finally {
@@ -134,7 +131,7 @@ boolean flag=false;
             while (res.next()) {
                 toReturn = res.getString(3);
             }
-        
+
             connection.close();
             res.close();
         } finally {
@@ -160,7 +157,7 @@ boolean flag=false;
                 }
 
 
-   
+
                 connection.close();
                 res.close();
             } finally {
@@ -185,7 +182,7 @@ boolean flag=false;
                     logger.info(rent);
                     flag = true;
                 }
-            
+
                 connection.close();
                 res.close();
             } finally {
