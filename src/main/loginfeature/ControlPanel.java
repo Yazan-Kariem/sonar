@@ -166,6 +166,7 @@ public boolean displayControlPanel(String userName) throws SQLException {
 int flag=0;
 int flag1=0;
 int flag2=0;
+boolean lflag=false;
 if(displayTenantInfo(userName)){
     flag=1;
 }
@@ -177,9 +178,10 @@ if(displayRent(userName)){
 }
 if(flag==1 && flag1==1 && flag2==1){
 
-    return true;
-}else{return false;}
+    lflag=true;
+}
 
+return lflag;
 
 }
 
