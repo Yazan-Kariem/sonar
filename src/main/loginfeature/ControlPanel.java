@@ -34,7 +34,7 @@ String select="Select * from booking where tenantUserName='";
     }
 
     public boolean displayTenantInfo(String userName) throws SQLException{
-int flag=0;
+boolean flag=false;
         if(isBooked(userName)){
 
                 Connection connection = DriverManager.getConnection(url, username, password);
@@ -58,16 +58,13 @@ int flag=0;
                     logger.info(registrationNumber);
                     logger.info(major);
                     logger.info("_____________________________________________");
-                    flag=1;
+                    flag=true;
             }
 
 
 
         }
-        if(flag==1){
-            return true;
-        }
-        return false;
+        return flag;
     }
 
     public boolean displayOwnerInfo(String userName) throws SQLException{
