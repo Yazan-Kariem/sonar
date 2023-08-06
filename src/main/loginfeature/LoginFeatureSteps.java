@@ -31,7 +31,7 @@ String tenant="tenant";
         adminFlag = false;
         String role=admin;
         if(role.equals(obj.checkValues(uname,pword))){
-            assertTrue(role.equals(obj.checkValues(uname,pword)));adminFlag = true;
+            assertEquals(role, obj.checkValues(uname, pword));adminFlag = true;
         }
     }
     @Then("admin login success")
