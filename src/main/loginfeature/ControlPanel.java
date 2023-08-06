@@ -13,7 +13,7 @@ public class ControlPanel {
     String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
     private static final Logger logger = Logger.getLogger(ControlPanel.class.getName());
 String select="Select * from booking where tenantUserName='";
-           public boolean isBooked(String userName) {
+               public boolean isBooked(String userName) throws SQLException {
 
 
         boolean flag = false;
@@ -33,13 +33,12 @@ String select="Select * from booking where tenantUserName='";
 
         } catch (Exception e) {
 logger.info("error");
-        } finally {
+        } 
+        finally {
             assert statement!=null;
-            try{
+       
             statement.close();
-            }catch (Exception e){
-                logger.info("error");
-            }
+            
         }
 
 
