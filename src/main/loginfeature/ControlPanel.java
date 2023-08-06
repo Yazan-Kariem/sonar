@@ -17,11 +17,12 @@ String select="Select * from booking where tenantUserName='";
 
         Connection connection = null;
         ResultSet res = null;
+        Statement statement = null;
         try {
 
             connection = DriverManager.getConnection(url, username, password);
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
             String query = select + userName + "'";
             res = statement.executeQuery(query);
@@ -31,6 +32,7 @@ String select="Select * from booking where tenantUserName='";
 
 
         } finally {
+            statement.close();
             connection.close();
             res.close();
 
