@@ -61,7 +61,9 @@ boolean flag=false;
                     flag=true;
             }
 
-
+            statement.close();
+            connection.close();
+            res.close();
 
         }
         return flag;
@@ -93,7 +95,9 @@ boolean flag=false;
                 flag=true;
             }
 
-
+        statement.close();
+        connection.close();
+        re.close();
         return flag;
     }
 
@@ -109,7 +113,9 @@ String toReturn="null";
             while (res.next()){
                 toReturn= res.getString(3);
             }
-
+        statement.close();
+        connection.close();
+        res.close();
 
         return toReturn;
 
@@ -129,7 +135,9 @@ String toReturn="null";
                 }
 
 
-
+            statement.close();
+            connection.close();
+            res.close();
 return toReturn;
         }
         public boolean displayRent(String userName) throws SQLException {
@@ -148,7 +156,9 @@ return toReturn;
 flag= true;
                 }
 
-
+            statement.close();
+            connection.close();
+            res.close();
 
             return flag;
         }
