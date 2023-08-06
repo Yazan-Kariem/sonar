@@ -1,6 +1,8 @@
 package loginfeature;
 
 
+import io.cucumber.java.an.E;
+
 import java.sql.*;
 import java.util.logging.Logger;
 
@@ -13,10 +15,8 @@ public class ControlPanel {
     String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
     private static final Logger logger = Logger.getLogger(ControlPanel.class.getName());
 String select="Select * from booking where tenantUserName='";
-               public boolean isBooked(String userName) throws SQLException {
-
-
-        boolean flag = false;
+    public boolean isBooked(String userName) throws SQLException {
+ boolean flag = false;
         Statement statement =null;
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
@@ -29,23 +29,19 @@ String select="Select * from booking where tenantUserName='";
             }
             connection.close();
             res.close();
-            statement.close();
+        
 
-        } catch (Exception e) {
-logger.info("error");
         } 
         finally {
             assert statement!=null;
-       
+
             statement.close();
-            
+
         }
-
-
         return flag;
-
     }
-       public boolean displayTenantInfo(String userName) throws SQLException{
+
+    public boolean displayTenantInfo(String userName) throws SQLException{
 boolean flag=false;
         if(isBooked(userName)) {
 
@@ -73,7 +69,7 @@ boolean flag=false;
                     logger.info("_____________________________________________");
                     flag = true;
                 }
-                statement.close();
+          
                 connection.close();
                 res.close();
             } finally {
@@ -85,96 +81,118 @@ boolean flag=false;
         }
         return flag;
     }
-    public boolean displayOwnerInfo(String userName) throws SQLException{
-        boolean flag=false;
-        String ownerName=(getOwnerName(userName));
 
-       Connection connection = DriverManager.getConnection(url, username, password);
+    public boolean displayOwnerInfo(String userName) throws SQLException {
+        boolean flag = false;
+        String ownerName = (getOwnerName(userName));
 
-            Statement statement = connection.createStatement();
+        Statement statement = null;
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-           String  query = "Select * from owner where username='" + ownerName + "'";
+            statement = connection.createStatement();
+
+            String query = "Select * from owner where username='" + ownerName + "'";
 
             ResultSet re = statement.executeQuery(query);
 
             logger.info("Owner information:");
             while (re.next()) {
-                String ownerNamep="Owner Name : "+re.getString(1)+" "+re.getString(2)+" "+re.getString(3);
-                String age="Age : "+re.getString(4);
-                String phoneNumber="Phone Number : "+re.getString(5);
-                String email="Email : "+re.getString(6);
-               logger.info(ownerNamep);
-               logger.info(age);
+                String ownerNamep = "Owner Name : " + re.getString(1) + " " + re.getString(2) + " " + re.getString(3);
+                String age = "Age : " + re.getString(4);
+                String phoneNumber = "Phone Number : " + re.getString(5);
+                String email = "Email : " + re.getString(6);
+                logger.info(ownerNamep);
+                logger.info(age);
                 logger.info(phoneNumber);
-               logger.info(email);
+                logger.info(email);
 
-                flag=true;
+                flag = true;
             }
 
-        statement.close();
-        connection.close();
-        re.close();
+    
+            connection.close();
+            re.close();
+
+        } finally {
+            assert statement!=null;
+            statement.close();
+        }
+
         return flag;
     }
 
-    public String getOwnerName(String userName) throws SQLException{
+    public String getOwnerName(String userName) throws SQLException {
 
-String toReturn="null";
-       Connection connection = DriverManager.getConnection(url, username, password);
+        String toReturn = "null";
+        Statement statement = null;
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
             String query = select + userName + "'";
             ResultSet res = statement.executeQuery(query);
-            while (res.next()){
-                toReturn= res.getString(3);
+            while (res.next()) {
+                toReturn = res.getString(3);
             }
-        statement.close();
-        connection.close();
-        res.close();
-
+        
+            connection.close();
+            res.close();
+        } finally {
+            assert statement!=null;
+                    statement.close();
+        }
         return toReturn;
 
-        }
+    }
 
-        public String getHouseID(String userName) throws SQLException{
-String toReturn="null";
+        public String getHouseID(String userName) throws SQLException {
+            String toReturn = "null";
 
-        Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = null;
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-                Statement statement = connection.createStatement();
+                statement = connection.createStatement();
 
-                String  query = select+userName+"'" ;
+                String query = select + userName + "'";
                 ResultSet res = statement.executeQuery(query);
-                while (res.next()){
-                    toReturn= res.getString(1);
+                while (res.next()) {
+                    toReturn = res.getString(1);
                 }
 
 
-            statement.close();
-            connection.close();
-            res.close();
-return toReturn;
+   
+                connection.close();
+                res.close();
+            } finally {
+                assert statement != null;
+                statement.close();
+            }
+            return toReturn;
         }
         public boolean displayRent(String userName) throws SQLException {
-        boolean flag=false;
-        String id=(getHouseID(userName));
+            boolean flag = false;
+            String id = (getHouseID(userName));
 
-          Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = null;
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-                Statement statement = connection.createStatement();
+                statement = connection.createStatement();
 
                 String query = "Select * from housing where ID='" + id + "'";
                 ResultSet res = statement.executeQuery(query);
                 while (res.next()) {
-                    String rent="Rent : "+res.getString(13);
-                   logger.info(rent);
-flag= true;
+                    String rent = "Rent : " + res.getString(13);
+                    logger.info(rent);
+                    flag = true;
                 }
+            
+                connection.close();
+                res.close();
+            } finally {
+                assert statement != null;
+                statement.close();
+            }
 
-            statement.close();
-            connection.close();
-            res.close();
 
             return flag;
         }
