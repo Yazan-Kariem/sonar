@@ -22,7 +22,7 @@ public class BookingFeature {
     @And("the tenant typed {string} then type the id {string}")
     public void theTenantTypedThenTypeTheId(String arg0, String arg1) {
 
-            assertTrue(((arg0.equals("Yes") && arg1.equals("1"))&&!test)||test);
+            assertTrue((arg0.equals("Yes") && arg1.equals("1")) || test);
 
     }
 
