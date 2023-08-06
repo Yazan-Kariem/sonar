@@ -13,31 +13,27 @@ public class ControlPanel {
     String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
     private static final Logger logger = Logger.getLogger(ControlPanel.class.getName());
 String select="Select * from booking where tenantUserName='";
-    public boolean isBooked(String userName) throws SQLException {
+        public boolean isBooked(String userName) throws SQLException {
 
-        Connection connection = null;
-        ResultSet res = null;
-        Statement statement = null;
-        try {
 
-            connection = DriverManager.getConnection(url, username, password);
 
-            statement = connection.createStatement();
+      Connection connection = DriverManager.getConnection(url, username, password);
 
-            String query = select + userName + "'";
-            res = statement.executeQuery(query);
-            while (res.next()) {
+            Statement statement = connection.createStatement();
+
+            String query = select+userName+"'" ;
+            ResultSet res = statement.executeQuery(query);
+            while (res.next()){
+                connection.close();
+                statement.close();
+                res.close();
                 return true;
             }
-
-
-        } finally {
             statement.close();
-            connection.close();
-            res.close();
+        connection.close();
+        res.close();
+            return false;
 
-        }
-        return false;
     }
 
     public boolean displayTenantInfo(String userName) throws SQLException{
