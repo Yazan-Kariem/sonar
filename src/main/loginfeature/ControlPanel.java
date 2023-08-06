@@ -15,7 +15,7 @@ public class ControlPanel {
 String select="Select * from booking where tenantUserName='";
     public boolean isBooked(String userName) throws SQLException {
 
-
+boolean flag=false;
 
       Connection connection = DriverManager.getConnection(url, username, password);
 
@@ -24,12 +24,12 @@ String select="Select * from booking where tenantUserName='";
             String query = select+userName+"'" ;
             ResultSet res = statement.executeQuery(query);
             while (res.next()){
-                return true;
+                flag=true;
             }
             statement.close();
             connection.close();
             res.close();
-            return false;
+            return flag;
 
     }
 
