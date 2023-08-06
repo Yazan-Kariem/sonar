@@ -45,24 +45,25 @@ logger.info("error");
         return flag;
 
     }
-    public boolean displayTenantInfo(String userName) throws SQLException{
+       public boolean displayTenantInfo(String userName) throws SQLException{
 boolean flag=false;
-        if(isBooked(userName)){
+        if(isBooked(userName)) {
 
-                Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = null;
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-                    Statement statement = connection.createStatement();
+                statement = connection.createStatement();
 
-                    String query="Select * from tenant where username='"+userName+"'";
-                    ResultSet res=statement.executeQuery(query);
-                   logger.info("Personal Information : ");
-                while (res.next()){///
-                    String name="Name : "+res.getString(1)+" "+res.getString(2)+" "+res.getString(3);
-                    String phoneNumber="Phone Number : "+res.getString(4);
-                    String email="Email : "+res.getString(5);
-                    String age="Age : "+res.getString(6);
-                    String registrationNumber="Registration Number : "+res.getString(7);
-                    String major="Major : "+res.getString(8);
+                String query = "Select * from tenant where username='" + userName + "'";
+                ResultSet res = statement.executeQuery(query);
+                logger.info("Personal Information : ");
+                while (res.next()) {///
+                    String name = "Name : " + res.getString(1) + " " + res.getString(2) + " " + res.getString(3);
+                    String phoneNumber = "Phone Number : " + res.getString(4);
+                    String email = "Email : " + res.getString(5);
+                    String age = "Age : " + res.getString(6);
+                    String registrationNumber = "Registration Number : " + res.getString(7);
+                    String major = "Major : " + res.getString(8);
                     logger.info(name);
                     logger.info(phoneNumber);
                     logger.info(email);
@@ -70,17 +71,20 @@ boolean flag=false;
                     logger.info(registrationNumber);
                     logger.info(major);
                     logger.info("_____________________________________________");
-                    flag=true;
+                    flag = true;
+                }
+                statement.close();
+                connection.close();
+                res.close();
+            } finally {
+                assert statement!=null;
+                statement.close();
             }
 
-            statement.close();
-            connection.close();
-            res.close();
 
         }
         return flag;
     }
-
     public boolean displayOwnerInfo(String userName) throws SQLException{
         boolean flag=false;
         String ownerName=(getOwnerName(userName));
