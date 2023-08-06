@@ -68,6 +68,7 @@ boolean flag=false;
     }
 
     public boolean displayOwnerInfo(String userName) throws SQLException{
+        boolean flag=false;
         String ownerName=(getOwnerName(userName));
 
        Connection connection = DriverManager.getConnection(url, username, password);
@@ -89,16 +90,16 @@ boolean flag=false;
                 logger.info(phoneNumber);
                logger.info(email);
 
-                return true;
+                flag=true;
             }
 
 
-        return false;
+        return flag;
     }
 
     public String getOwnerName(String userName) throws SQLException{
 
-
+String toReturn="null";
        Connection connection = DriverManager.getConnection(url, username, password);
 
             Statement statement = connection.createStatement();
@@ -106,16 +107,16 @@ boolean flag=false;
             String query = select + userName + "'";
             ResultSet res = statement.executeQuery(query);
             while (res.next()){
-                return res.getString(3);
+                toReturn= res.getString(3);
             }
 
 
-        return "null";
+        return toReturn;
 
         }
 
         public String getHouseID(String userName) throws SQLException{
-
+String toReturn="null";
 
         Connection connection = DriverManager.getConnection(url, username, password);
 
@@ -124,14 +125,15 @@ boolean flag=false;
                 String  query = select+userName+"'" ;
                 ResultSet res = statement.executeQuery(query);
                 while (res.next()){
-                    return res.getString(1);
+                    toReturn= res.getString(1);
                 }
 
 
 
-return "null";
+return toReturn;
         }
         public boolean displayRent(String userName) throws SQLException {
+        boolean flag=false;
         String id=(getHouseID(userName));
 
           Connection connection = DriverManager.getConnection(url, username, password);
@@ -143,12 +145,12 @@ return "null";
                 while (res.next()) {
                     String rent="Rent : "+res.getString(13);
                    logger.info(rent);
-return true;
+flag= true;
                 }
 
 
 
-            return false;
+            return flag;
         }
 public boolean displayControlPanel(String userName) throws SQLException {
 int flag=0;
