@@ -101,9 +101,8 @@ public class Furniture {
         return false;
     }
 
-    public boolean checkAvailability(String userName, String id) throws SQLException {
-
-        int counter = 1;
+      public boolean checkAvailability(String userName, String id) throws SQLException {
+        boolean flag=false;
         Connection connection = DriverManager.getConnection(url, username, password);
         Statement statement = connection.createStatement();
 
@@ -112,15 +111,11 @@ public class Furniture {
         ResultSet resultSet = statement.executeQuery(query);
 
         while (resultSet.next()) {
-            counter++;
-
+            
+flag=true;
 
         }
-        if (counter > 1) {
-            return true;
-        }else {return false;}
-
-
+      return  flag;
 
 
 
