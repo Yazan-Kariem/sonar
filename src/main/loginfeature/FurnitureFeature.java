@@ -6,15 +6,14 @@ import io.cucumber.java.en.Then;
 
 import java.sql.SQLException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class FurnitureFeature {
 Furniture obj=new Furniture();
     @Given("tenant typed {int} to view his furnitures")
     public void tenantTypedToViewHisFurnitures(Integer int1) {
 
-            assertTrue(int1==1);
+        assertEquals(1, (int) int1);
 
     }
     boolean avb=false;
@@ -36,7 +35,7 @@ Furniture obj=new Furniture();
 
     @Given("tenant typed {int} to show his furnitures")
     public void tenantTypedToShowHisFurnitures(Integer int1) {
-      assertTrue(int1==1);
+        assertEquals(1, (int) int1);
     }
     boolean avb1=false;
     @Given("the tenant doesn't have available furnitures the tenant username is {string}")
@@ -50,7 +49,7 @@ Furniture obj=new Furniture();
     }
     @Given("tenant typed {string} to choose add option to add furniture")
     public void tenantWantsToAddFurniture(String string) {
-     assertTrue(string.equals("2"));
+        assertEquals("2", string);
     }
 
     @Then("the program will appear window to add furniture has these informations username is {string} and Picture is {string} and Description is {string} and Price is {string} and ID is {string} and selled is {string}")
