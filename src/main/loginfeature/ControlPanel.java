@@ -24,10 +24,7 @@ String select="Select * from booking where tenantUserName='";
             while (res.next()) {
                 flag = true;
             }
-         
             res.close();
-
-
         }
         finally {
             assert statement!=null;
@@ -67,7 +64,7 @@ boolean flag=false;
                     flag = true;
                 }
 
-            
+
                 res.close();
             } finally {
                 assert statement!=null;
@@ -107,7 +104,7 @@ boolean flag=false;
             }
 
 
-      
+
             re.close();
 
         } finally {
@@ -132,7 +129,7 @@ boolean flag=false;
                 toReturn = res.getString(3);
             }
 
-            connection.close();
+       
             res.close();
         } finally {
             assert statement!=null;
@@ -158,7 +155,7 @@ boolean flag=false;
 
 
 
-                connection.close();
+     
                 res.close();
             } finally {
                 assert statement != null;
@@ -183,7 +180,7 @@ boolean flag=false;
                     flag = true;
                 }
 
-                connection.close();
+ 
                 res.close();
             } finally {
                 assert statement != null;
