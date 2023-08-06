@@ -12,42 +12,53 @@ public class ShowLivedIn {
     String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
     private static final Logger logger = Logger.getLogger(ShowLivedIn.class.getName());
     public boolean isLived(String id) throws SQLException {
+        boolean flag = false;
+        Statement statement = null;
+        try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-    Connection connection = DriverManager.getConnection(url, username, password);
 
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
 
-           String query = "Select * from Tenants_Housing where houseID='" + id + "'";
+            String query = "Select * from Tenants_Housing where houseID='" + id + "'";
             ResultSet res = statement.executeQuery(query);
-            while (res.next()){
-                return true;
+            while (res.next()) {
+                flag = true;
             }
+            res.close();
+        } finally {
+            assert statement != null;
+            statement.close();
+        }
 
 
-
-        return false;
+        return flag;
 
     }
     public boolean displayLived(String id) throws SQLException{
+        boolean flag=false;
         if (isLived(id)) {
 
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement statement = null;
+            try (Connection connection = DriverManager.getConnection(url, username, password)) {
 
-                Statement statement = connection.createStatement();
+                statement = connection.createStatement();
 
-               String query = "Select * from Tenants_Housing where houseID='" + id + "'";
+                String query = "Select * from Tenants_Housing where houseID='" + id + "'";
                 ResultSet res = statement.executeQuery(query);
                 while (res.next()) {
-                    String people="People is : " + res.getString(1);
+                    String people = "People is : " + res.getString(1);
                     logger.info(people);
-
+                    flag = true;
                 }
-                return true;
-
+                res.close();
+            } finally {
+                assert statement != null;
+                statement.close();
+            }
 
 
         }
-        return false;
+        return flag;
     }
 
 
