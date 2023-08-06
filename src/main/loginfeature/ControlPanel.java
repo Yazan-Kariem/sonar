@@ -37,6 +37,7 @@ String select="Select * from booking where tenantUserName='";
             connection.close();
             assert res != null;
             res.close();
+            DriverManager.getConnection(url, username, password).close();
 
         }
         return flag;
